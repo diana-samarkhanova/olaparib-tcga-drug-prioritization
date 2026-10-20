@@ -1,6 +1,7 @@
 from pathlib import Path
 import json,re
 import pandas as pd
+from report_helpers import tcga_result_paragraphs
 
 R=Path(__file__).resolve().parents[2]; T=R/'analysis/tcga_extended'; D=R/'analysis/drugs_extended'; A=R/'analysis/astra_extended'
 O=R/'outputs/TCGA_Drug_Analysis_EN_20261013'; blocks=[]
@@ -26,6 +27,7 @@ cov=pd.read_csv(T/'gene_coverage.csv');assert cov.rna_coverage.eq('available').s
 cna=pd.read_csv(T/'CNA_prevalence_and_expression.csv'); assert 'LAMTOR2' in cna.gene.values
 exp=pd.read_csv(T/'expression_contrasts.csv');paths=pd.read_csv(T/'pathway_associations.csv');cox=pd.read_csv(T/'survival_continuous_Cox.csv')
 mut=pd.read_csv(T/'mutation_prevalence.csv');sens=pd.read_csv(T/'survival_PAM50_sensitivity.csv');rppa=pd.read_csv(T/'RPPA_associations.csv')
+tcga_text=tcga_result_paragraphs(counts,cna,exp,cox,mut,sens,rppa)
 drugcov=json.loads((D/'expanded_coverage_summary.json').read_text())
 scr=pd.read_csv(O/'tables/Selected_CRISPR_panel_20_genes.csv')
 ko=['LAMTOR2','WDR24','DERL2','NME6','TP53BP1','PARG'];act=['TP53I11','FOXQ1','CERK','PHF19','SLC35D1','PHLDA2','WT1','HEPHL1','LINC03007','SLC47A1','ELL2','INHBA','PHGDH','ABCB1']
@@ -39,7 +41,7 @@ p('Three endpoints are retained throughout. Selective monotherapy means preferen
 h('Resources and analytical methods')
 tab(['Resource','Actual analysis','Coverage'],[
 ['Project CRISPR','Supplied CNV-corrected MAGeCK RRA gene summaries; positive-selection FDR and guide support retained','40 candidate–timepoint records'],
-['TCGA-BRCA','RNA, GISTIC CNA, public somatic mutations, RPPA, purity and clinical endpoints','1,082 RNA-matched primary patients; 19/20 genes'],
+['TCGA-BRCA','RNA, GISTIC CNA, public somatic mutations, RPPA, purity and clinical endpoints',f"{counts['rna_matched_primary_patients']:,} eligible RNA-matched primary patients; 19/20 genes"],
 ['GSE165914','Extraction of published genome-wide differential-expression statistics and processed sample values','19/20 candidates; parental, acute and resistant-exposure contexts'],
 ['PRISM','Original primary fixed-dose and secondary dose-response resources','1,502 and 531 catalog entries linked to actual parental 468 records'],
 ['GDSC1 and GDSC2','Official release 8.5 fitted dose-response workbooks','76 and 89 catalog entries linked to parental 468 records'],
@@ -60,12 +62,12 @@ fig(O/'figures/F02_Activation_screen_evidence.png','Figure 2. Fourteen activatio
 p('The previously executed full-screen Reactome v97 enrichment provides an independent annotation layer. Its foreground is the 24 recurrent positive KO hits, of which 20 map; the background is 10,831 annotated genes from 19,112 assayed genes. One-sided hypergeometric tests cover 1,713 eligible pathways, with six BH-significant results. Amino acids regulate mTORC1 includes LAMTOR2, MLST8 and WDR24 (q=0.0303); G1/S transcription and integration of energy metabolism are also enriched. Shared endothelial/shear-stress annotations reflect overlapping signalling genes rather than establishing an endothelial identity for 468. This enrichment is not an ORA of the six selected genes and does not determine a drug’s direction. The full table and separate figure are supplied. [Reactome](https://reactome.org/)')
 
 h('TCGA cohort and expression context')
-p('The primary RNA cohort contains 1,082 patients: 157 clinical TNBC, 848 non-TNBC and 77 unclassified. PAM50 assigns 171 basal-like tumours; 101 have unassigned subtype. Purity is available for 1,021 patients. The classification rules and missing categories remain visible in the cohort table; basal-like and TNBC are overlapping biological definitions rather than interchangeable sample labels.')
+p(tcga_text['cohort'])
 ce=exp.query("comparison=='clinical_TNBC_vs_nonTNBC'").set_index('gene')
 vals=[]
 for g in ko:
     row=ce.loc[g];vals.append(f'{g} {row.median_delta_log2_RSEM_plus1:+.3f} (q={row.BH_FDR:.3g})')
-p('For the KO panel, TNBC-versus-non-TNBC median transformed-expression differences are '+', '.join(vals)+'. LAMTOR2 and DERL2 do not meet q<0.05 in this contrast. Lower tumour expression of a KO candidate gives loss-related context but is not evidence of complete gene deletion or of resistance to olaparib.')
+p(tcga_text['expression'])
 p('Among core activation candidates, FOXQ1, CERK, PHF19 and PHLDA2 are higher in clinical TNBC, while TP53I11 and SLC35D1 are lower, all at candidate-panel BH FDR <0.05. PHGDH has the largest positive median difference in the panel. A low TNBC average does not exclude an activation-induced phenotype in 468; tumour subtype enrichment and intervention direction answer different questions.')
 fig(T/'figures/TCGA_F01_expression_contrasts.png','Figure 3. Newly calculated TCGA candidate expression contrasts under separate clinical and intrinsic-subtype definitions. Δ is a difference in median log2(RSEM+1), not a log2 fold change. Asterisks use candidate-panel BH FDR <0.05; LINC03007 is unavailable.')
 
@@ -76,7 +78,8 @@ for g in ko:
     y=mut.query("cohort=='TNBC' and gene==@g").iloc[0]
     rows.append([g,int(x.n_profiled),int(x.deep_deletion_n),int(x.shallow_loss_n),int(y.n_mutated_tumours),int(y.n_putative_truncating_splice_tumours)])
 tab(['KO gene','CNA n','Deep loss','Shallow loss','Mutated n','Truncating or splice n'],rows,[1.05,.7,1,1.05,1,2.2],9.3)
-p('Deep deletions and coding loss-type variants are uncommon in this TNBC subset. Somatic-variant denominators are 157 sequenced TNBC tumours and 1,064 pooled-BRCA tumours. LAMTOR2 instead shows frequent gains/amplifications, despite a small nonsignificant lower median RNA contrast. This is a direct warning against interpreting a tumour expression comparison as an engineered loss model. Shallow loss cannot establish a biallelic KO. The public somatic calls also do not provide a complete assessment of germline status, methylation, repair function or allele-specific inactivation.')
+p(tcga_text['denominator'])
+p('LAMTOR2 shows frequent gains/amplifications in clinical TNBC. A tumour expression contrast must not be interpreted as an engineered loss model. Public somatic calls do not provide complete germline, methylation, repair-function or allele-specific information.')
 fig(T/'figures/TCGA_F02_CNA_prevalence.png','Figure 4. GISTIC copy-number distributions in pooled BRCA and clinical TNBC. Percentages use gene-specific profiled denominators. Copy-number categories provide dosage context, not proof of CRISPR-equivalent KO or activation.')
 
 h('Within TNBC pathway and protein associations')
@@ -89,11 +92,11 @@ tab(['Gene','Programme','Adjusted n','Partial rho','BH FDR'],rows,[1,3.15,.85,.8
 p('The patient data support contextual ER-stress and mitochondrial programmes for DERL2/NME6, and strong activin/TGF-beta context for INHBA. They do not support a simple positive mTORC1 RNA relationship for LAMTOR2/WDR24, and FOXQ1–EMT is not significant after the predefined adjustment. CERK associates negatively with the mTORC1 transcript programme, opposite to the signalling direction in the overexpression experiments. Transcript programme scores and acute phosphosignalling are different measurements; this contradiction should constrain extrapolation rather than erase the perturbation evidence.')
 fig(T/'figures/TCGA_F03_TNBC_pathway_associations.png','Figure 5. Adjusted candidate–programme co-expression within clinical TNBC. Candidate genes are excluded from their corresponding scores; age, proliferation, purity and target CNA are included where covered. Stars use BH correction across the full within-TNBC test family. Associations do not establish compensatory dependence.')
 rp=rppa.query("cohort=='TNBC' and BH_FDR<0.05")
-p('Only two exploratory RNA–RPPA associations survive the TNBC correction: TP53BP1 RNA with 53BP1 protein (rho +0.368, q=0.00149) and PHF19 RNA with AKT pS473 (rho −0.391, q=0.000802). The full matrix is supplied as a separate PNG. These unadjusted correlations neither demonstrate pathway activation by a candidate nor identify a drug-response mechanism.')
+p(tcga_text['protein'])
 
 h('Prognosis and its limits')
-p('PFI is available for 1,067 pooled-BRCA patients with 145 events, 157 TNBC patients with 28 events and 169 basal-like patients with 25 events. The subgroup event counts permit predefined univariable models but not the age/stage-adjusted three-covariate models. No TNBC or basal-like candidate meets PFI BH FDR <0.05. Absence of significance in these small event sets is not proof of no clinical relevance.')
-p('In pooled BRCA, age/stage-adjusted HEPHL1 associates with higher PFI hazard (HR 1.236 per SD, 95% CI 1.071–1.427, q=0.0359) and ABCB1 with lower hazard (HR 0.706, 95% CI 0.604–0.825, q=0.000226). In the PAM50-adjusted sensitivity model (944 patients, 120 events), the HEPHL1 signal loses support; ABCB1 retains an inverse association (HR 0.675, 95% CI 0.563–0.810, q=0.000420). Its rank-time proportional-hazards diagnostic has raw p=0.0369 and PH-FDR=0.702, so a constant HR warrants caution. These are prognostic observations in heterogeneous patient treatment contexts. The ABCB1 result does not negate its experimentally established olaparib efflux mechanism and does not support calling high ABCB1 a clinical olaparib-response biomarker.')
+p(tcga_text['pfi'])
+p(tcga_text['survival'])
 fig(T/'figures/TCGA_F04_PFI_forest.png','Figure 6. Continuous-expression PFI models, using age/stage adjustment in pooled BRCA and univariable subgroup models where adjustment event requirements are unmet. Full sample counts, event counts, BH FDR, proportional-hazards diagnostics and subtype sensitivity models are retained in the tables.')
 
 h('Acquired resistance RNA context')

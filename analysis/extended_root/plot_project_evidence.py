@@ -130,13 +130,27 @@ auc=pd.to_numeric(selected.secondary_468_auc_median,errors='coerce').values
 r2=pd.to_numeric(selected.secondary_468_r2_median,errors='coerce').values
 for i,(a,r) in enumerate(zip(auc,r2)):
     if np.isfinite(a): ax.scatter(a,i,s=65,color='#386c73' if r>0 else '#d2a25a',marker='o' if r>0 else 'x',zorder=3)
-    else: ax.text(.03,i,'Not covered',va='center',color='#888888',fontsize=9)
+    else:
+        row=selected.iloc[i]
+        n_sources=pd.to_numeric(row.get('secondary_468_n_source_names',np.nan),errors='coerce')
+        n_windows=pd.to_numeric(row.get('secondary_468_n_distinct_dose_windows',np.nan),errors='coerce')
+        compatibility=row.get('secondary_468_pooled_dose_window_compatible',np.nan)
+        incompatible=str(compatibility).strip().lower() in {'false','0'}
+        if n_sources==0:
+            label='Not covered'
+        elif incompatible:
+            label='Not pooled: different dose windows' if n_windows>1 else 'Not pooled: dose window missing'
+        elif n_sources>1:
+            label='Not pooled: multiple source names'
+        else:
+            label='Covered: AUC unavailable'
+        ax.text(.03,i,label,va='center',color='#888888',fontsize=9)
     if np.isfinite(a): ax.text(a+.025,i,f'R² {r:.2f}',va='center',fontsize=8)
 ax.set(yticks=np.arange(len(labels)),yticklabels=labels,xlabel='Native PRISM secondary AUC (lower indicates stronger integrated inhibition)',xlim=(0,1.35),ylim=(len(labels)-.5,-.5))
 ax.set_title('PRISM dose-response evidence and fit diagnostics',fontsize=14)
 ax.scatter([],[],color='#386c73',label='Positive source R²');ax.scatter([],[],color='#d2a25a',marker='x',label='Nonpositive source R²')
 ax.legend(loc='lower right',frameon=False,fontsize=9)
-fig.text(.02,.015,'Native source AUCs are not clamped and are not pooled across datasets. Different dose windows affect AUC.\nPositive R² alone does not certify a strong curve fit. Lapatinib has very low R²; several rapalog fits are poor.\nMissing or extrapolated IC50 values are not replaced by zero.',fontsize=8)
+fig.text(.02,.015,'Native AUCs are not clamped. Different dose windows are not pooled; source-context values are retained in the tables.\nPositive R² alone does not certify a strong curve fit. Lapatinib has very low R²; several rapalog fits are poor.\nMissing or extrapolated IC50 values are not replaced by zero.',fontsize=8)
 fig.subplots_adjust(left=.25,bottom=.19,top=.92)
 save(fig,'F05_Parental_468_PRISM_secondary')
 

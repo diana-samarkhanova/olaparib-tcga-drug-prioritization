@@ -92,8 +92,21 @@ use the repository's pinned environment rather than an older pandas release.
 Primary log2 fold change and its derived `2**LFC` readout are not IC50 values.
 Secondary IC50 is already in micromolar, whereas AUC retains the source dose
 window. MTS010 technical redos are preferred when available; otherwise the
-script retains the available records and reports their median and diagnostics.
-Extrapolated or missing IC50 values remain flagged.
+script retains the available records. A median AUC or IC50 is reported only
+when selected dose windows agree within 0.1% (to accommodate source rounding).
+When windows differ or are missing, pooled AUC, R² and IC50 are left missing and
+the individual records remain in `selected_curve_details_JSON` and
+`secondary_compound_cell_dose_context_summary.csv`. Extrapolated or missing
+IC50 values remain flagged. Within-range fitted IC50 does not by itself imply
+that a fit is reliable; inspect R² and the retained curve diagnostics.
+
+The October 2026 audit corrected an earlier pooling error. For selinexor in
+MDA-MB-468, HTS002 tested up to 10 µM and fitted IC50 0.509477 µM, whereas MTS006
+tested up to 2.5 µM and fitted IC50 0.020076 µM. The old pooled IC50 0.264777 µM
+and AUC 0.612029 should not be used. The corrected outputs retain the two source
+contexts without assigning a combined potency. Three compounds (selinexor,
+doxycycline and U-0126) have materially different selected windows across 21
+breast cell lines each; the most pronounced window difference is selinexor.
 
 ## 3. GDSC release 8.5
 
@@ -140,6 +153,9 @@ PubChem synonyms unless the corresponding JSON responses are already cached in
 `analysis/drugs_extended/identity_sources/`. Source links and lookup status are
 retained. Synonym expansion can differ if a live resource changes; use the
 archived cache for the historical mapping.
+The builder now explicitly includes KPT-330/selinexor (B1464). This reviewed
+alias was present in the original result table but missing from its builder,
+so an earlier fresh run would silently discard the selinexor links.
 
 `join_mechanisms.py` uses the reviewed
 `analysis/mechanisms_extended/evidence.csv` restored from the delivery. Its
@@ -152,6 +168,10 @@ Names, developmental codes, and salt heuristics provide provisional chemical
 links. No canonical structure validation was performed. Coverage counts are
 catalog-entry counts rather than counts of unique chemical entities. Drug
 nomination remains evidence-based curation, not a fitted TCGA response predictor.
+The drug profile tables retain PRISM source-curve JSON and dose-compatibility
+flags. Full catalog-linked contexts are also exported to
+`prism_secondary_catalog_dose_context_records.csv` and its MDA-MB-468 subset;
+TNBC context summaries preserve screen, batch, and dose window.
 
 ## 5. Published combination evidence
 

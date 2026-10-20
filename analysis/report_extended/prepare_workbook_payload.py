@@ -2,6 +2,7 @@ from pathlib import Path
 import json
 import pandas as pd
 import numpy as np
+from report_helpers import select_screen_timepoint
 
 ROOT=Path(__file__).resolve().parents[2]
 T=ROOT/'analysis/tcga_extended'; D=ROOT/'analysis/drugs_extended'; A=ROOT/'analysis/astra_extended'
@@ -28,7 +29,7 @@ priorities=pd.read_csv(D/'final_model_priorities.csv')
 scientific=pd.read_csv(A/'final_gene_priority_matrix.csv')
 summary=scientific[['gene','perturbation','user_validation_group','scientific_priority','mechanistic_program']].copy()
 for time in ['early','late']:
-    rows=scr.groupby('gene').nth(0 if time=='early' else 1).reset_index()
+    rows=select_screen_timepoint(scr,time)
     cols=rows[['gene','log2FC','positive_FDR','supporting_sgRNAs']].rename(columns={c:f'{time}_{c}' for c in ['log2FC','positive_FDR','supporting_sgRNAs']})
     summary=summary.merge(cols,on='gene',validate='one_to_one')
 e=expression.query("comparison=='clinical_TNBC_vs_nonTNBC'")[['gene','median_delta_log2_RSEM_plus1','BH_FDR']].rename(columns={'median_delta_log2_RSEM_plus1':'TCGA_TNBC_median_delta_log2_RSEM_plus1','BH_FDR':'TCGA_TNBC_expression_BH_FDR'})

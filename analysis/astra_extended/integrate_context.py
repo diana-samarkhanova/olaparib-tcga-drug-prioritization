@@ -4,7 +4,15 @@ import pandas as pd
 P=Path(__file__).resolve().parent;root=P.parent.parent
 m=pd.read_csv(P/'final_gene_priority_matrix.csv')
 m=m[[c for c in m if not c.startswith(('screen_','tcga_','gse_'))]]
-s=pd.read_csv(root/'tables/Selected_CRISPR_panel_20_genes.csv')
+screen_panel=root/'outputs/TCGA_Drug_Analysis_EN_20261013/tables/Selected_CRISPR_panel_20_genes.csv'
+if not screen_panel.is_file():
+ raise FileNotFoundError(
+  f'Missing generated screen panel: {screen_panel}. '
+  'Run python analysis/extended_root/plot_project_evidence.py first. '
+  'The restored root tables/ copy is an archival snapshot and is not used '
+  'as a fallback, because it can be stale after screen reanalysis.'
+ )
+s=pd.read_csv(screen_panel)
 s['strict_positive']=(s.positive_FDR<.05)&(s.log2FC>0)
 a=[]
 for g,x in s.groupby('gene'):
