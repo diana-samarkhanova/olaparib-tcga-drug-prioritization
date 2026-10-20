@@ -1,0 +1,184 @@
+[
+  {
+    "gene": "LAMTOR2",
+    "entrez": 28956,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=28956&projection=DETAILED&pageSize=100000",
+    "n_records": 1,
+    "bytes": 857,
+    "sha256": "96ce73b23dc4941f67866296b858075dccb77202626afdb5a5e9da1f7be26ca8",
+    "retrieved_utc": "2026-10-13T09:36:49.098270+00:00"
+  },
+  {
+    "gene": "WDR24",
+    "entrez": 84219,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=84219&projection=DETAILED&pageSize=100000",
+    "n_records": 3,
+    "bytes": 2524,
+    "sha256": "957668790c9d984f6dc0e5090770a4e2750b854ed754edbd3c6336db5d695153",
+    "retrieved_utc": "2026-10-13T09:36:17.312903+00:00"
+  },
+  {
+    "gene": "DERL2",
+    "entrez": 51009,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=51009&projection=DETAILED&pageSize=100000",
+    "n_records": 0,
+    "bytes": 2,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "retrieved_utc": "2026-10-13T09:36:17.366332+00:00"
+  },
+  {
+    "gene": "NME6",
+    "entrez": 10201,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=10201&projection=DETAILED&pageSize=100000",
+    "n_records": 1,
+    "bytes": 846,
+    "sha256": "7a6ff69fcff23e32c8b1824a7740c4cc3e865c4295e1fd3e8871cb87f29d9371",
+    "retrieved_utc": "2026-10-13T09:36:17.345990+00:00"
+  },
+  {
+    "gene": "TP53BP1",
+    "entrez": 7158,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=7158&projection=DETAILED&pageSize=100000",
+    "n_records": 18,
+    "bytes": 15545,
+    "sha256": "66322aea1e2307f68737380f8317f31c39a13097992983f691e2d72fc68abba4",
+    "retrieved_utc": "2026-10-13T09:36:17.353103+00:00"
+  },
+  {
+    "gene": "PARG",
+    "entrez": 8505,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=8505&projection=DETAILED&pageSize=100000",
+    "n_records": 2,
+    "bytes": 1702,
+    "sha256": "7f90737854e9cc4d78a46cd981d91551d087515ad9f3ea3ac5b76af2722dd67e",
+    "retrieved_utc": "2026-10-13T09:36:17.380772+00:00"
+  },
+  {
+    "gene": "TP53I11",
+    "entrez": 9537,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=9537&projection=DETAILED&pageSize=100000",
+    "n_records": 0,
+    "bytes": 2,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "retrieved_utc": "2026-10-13T09:36:17.399416+00:00"
+  },
+  {
+    "gene": "FOXQ1",
+    "entrez": 94234,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=94234&projection=DETAILED&pageSize=100000",
+    "n_records": 0,
+    "bytes": 2,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "retrieved_utc": "2026-10-13T09:36:49.654868+00:00"
+  },
+  {
+    "gene": "CERK",
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=64781&projection=DETAILED&pageSize=100000",
+    "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+    "gene": "PHF19",
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=26147&projection=DETAILED&pageSize=100000",
+    "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+    "gene": "SLC35D1",
+    "entrez": 23169,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=23169&projection=DETAILED&pageSize=100000",
+    "n_records": 1,
+    "bytes": 863,
+    "sha256": "cbe05502f5ff8909212e8cac67e56ff68792e5694f67dfd49bbc179550cae3d2",
+    "retrieved_utc": "2026-10-13T09:36:49.131231+00:00"
+  },
+  {
+    "gene": "PHLDA2",
+    "entrez": 7262,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=7262&projection=DETAILED&pageSize=100000",
+    "n_records": 0,
+    "bytes": 2,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "retrieved_utc": "2026-10-13T09:36:48.781067+00:00"
+  },
+  {
+    "gene": "WT1",
+    "entrez": 7490,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=7490&projection=DETAILED&pageSize=100000",
+    "n_records": 4,
+    "bytes": 3405,
+    "sha256": "c0a3e2a3908de4cde61a3cb9c9102f16fd4e2495c35c03475d0063740b41d6db",
+    "retrieved_utc": "2026-10-13T09:36:49.752705+00:00"
+  },
+  {
+    "gene": "HEPHL1",
+    "entrez": 341208,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=341208&projection=DETAILED&pageSize=100000",
+    "n_records": 12,
+    "bytes": 10369,
+    "sha256": "5241b53f52204c569bec69c5bdf93bc12b3d053b9eec6ac7b4afc4813033bc85",
+    "retrieved_utc": "2026-10-13T09:36:48.831748+00:00"
+  },
+  {
+    "gene": "SLC47A1",
+    "entrez": 55244,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=55244&projection=DETAILED&pageSize=100000",
+    "n_records": 1,
+    "bytes": 861,
+    "sha256": "8c2a2e2d84177c79a78c91b086d5aecd59522b7bb7f630355fa89dfbd6b6893c",
+    "retrieved_utc": "2026-10-13T09:36:56.630772+00:00"
+  },
+  {
+    "gene": "ELL2",
+    "entrez": 22936,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=22936&projection=DETAILED&pageSize=100000",
+    "n_records": 8,
+    "bytes": 6841,
+    "sha256": "d03d47a800fdcc3235218e99506ba0d4ab054c4b64046bfb171110181589c6ba",
+    "retrieved_utc": "2026-10-13T09:36:56.610654+00:00"
+  },
+  {
+    "gene": "INHBA",
+    "entrez": 3624,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=3624&projection=DETAILED&pageSize=100000",
+    "n_records": 6,
+    "bytes": 5107,
+    "sha256": "480224cd49a15b66b650d3baa7cbbc77bc0e0209cccc66a5273df8632b9ec98a",
+    "retrieved_utc": "2026-10-13T09:36:56.567708+00:00"
+  },
+  {
+    "gene": "PHGDH",
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=26227&projection=DETAILED&pageSize=100000",
+    "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+    "gene": "ABCB1",
+    "entrez": 5243,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=5243&projection=DETAILED&pageSize=100000",
+    "n_records": 10,
+    "bytes": 8546,
+    "sha256": "79f7e881ddb4d1aa9ea5ba35e6c3ff8f19a94034a610699147722f5a1bba9def",
+    "retrieved_utc": "2026-10-13T09:36:56.673746+00:00"
+  },
+  {
+    "gene": "BRCA1",
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=672&projection=DETAILED&pageSize=100000",
+    "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+    "gene": "BRCA2",
+    "entrez": 675,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=675&projection=DETAILED&pageSize=100000",
+    "n_records": 32,
+    "bytes": 27072,
+    "sha256": "b976f00faf16e2153dda8282ac3d3bc0984c212e9368ee6cdde601fd2cdfee68",
+    "retrieved_utc": "2026-10-13T09:36:56.749549+00:00"
+  },
+  {
+    "gene": "TP53",
+    "entrez": 7157,
+    "url": "https://www.cbioportal.org/api/molecular-profiles/brca_tcga_pan_can_atlas_2018_mutations/mutations?sampleListId=brca_tcga_pan_can_atlas_2018_sequenced&entrezGeneId=7157&projection=DETAILED&pageSize=100000",
+    "n_records": 353,
+    "bytes": 301515,
+    "sha256": "ccf5f36247fc40468cda446fc2f84cb4e2e445832aa85055e44f3b67be8433d9",
+    "retrieved_utc": "2026-10-13T09:36:56.811964+00:00"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "dataset": "GDSC1",
+    "source_url": "https://cog.sanger.ac.uk/cancerrxgene/GDSC_release8.5/GDSC1_fitted_dose_response_27Oct23.xlsx",
+    "source_release": "8.5",
+    "source_filename": "GDSC1_fitted_dose_response_27Oct23.xlsx",
+    "download_date_utc": "2026-10-12",
+    "bytes": 29353210,
+    "sha256": "837b0686500fde75179e490de08f034abd9f882d8b0253d637bafe83e156dafd"
+  },
+  {
+    "dataset": "GDSC2",
+    "source_url": "https://cog.sanger.ac.uk/cancerrxgene/GDSC_release8.5/GDSC2_fitted_dose_response_27Oct23.xlsx",
+    "source_release": "8.5",
+    "source_filename": "GDSC2_fitted_dose_response_27Oct23.xlsx",
+    "download_date_utc": "2026-10-12",
+    "bytes": 21330376,
+    "sha256": "f950a7027be265f8a7a74220a27fd18cbd368485349bd8c2048e88bb1cd07560"
+  }
+]

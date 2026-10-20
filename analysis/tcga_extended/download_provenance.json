@@ -1,0 +1,38 @@
+[
+  {
+    "file": "data_clinical_patient.txt",
+    "url": "https://media.githubusercontent.com/media/cBioPortal/datahub/master/public/brca_tcga_pan_can_atlas_2018/data_clinical_patient.txt",
+    "status": 200,
+    "bytes": 341851,
+    "sha256": "13c939025794ce21905ccb3409865fa08506b2283b432f8e3a3022f60a4c7682",
+    "retrieved_utc": "2026-10-13T09:26:18.651745+00:00"
+  },
+  {
+    "file": "data_clinical_sample.txt",
+    "url": "https://media.githubusercontent.com/media/cBioPortal/datahub/master/public/brca_tcga_pan_can_atlas_2018/data_clinical_sample.txt",
+    "status": 200,
+    "bytes": 204137,
+    "sha256": "e96e6e4895a6ddcdb31d508a9e8f5676ca78ce396d2f82cd111a286a17e75ca6",
+    "retrieved_utc": "2026-10-13T09:26:18.359917+00:00"
+  },
+  {
+    "file": "data_cna.txt",
+    "url": "https://media.githubusercontent.com/media/cBioPortal/datahub/master/public/brca_tcga_pan_can_atlas_2018/data_cna.txt",
+    "status": 200,
+    "bytes": 60303945,
+    "sha256": "4b5a97e88b6358fcdec8422e3c4816c6626c2b317ef9053e6d20d131c695c1b8",
+    "retrieved_utc": "2026-10-13T09:26:28.487775+00:00"
+  },
+  {
+    "file": "data_mutations.txt",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "file": "data_mrna_seq_v2_rsem.txt",
+    "url": "https://media.githubusercontent.com/media/cBioPortal/datahub/master/public/brca_tcga_pan_can_atlas_2018/data_mrna_seq_v2_rsem.txt",
+    "status": 200,
+    "bytes": 154654165,
+    "sha256": "aba030e1f04a196ee6c2118ed37e777b533f7fd24ffd1bcbde908dcee33b2eb5",
+    "retrieved_utc": "2026-10-13T09:26:41.780252+00:00"
+  }
+]

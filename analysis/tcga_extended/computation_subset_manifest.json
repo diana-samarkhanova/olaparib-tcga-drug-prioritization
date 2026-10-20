@@ -1,0 +1,20 @@
+[
+  {
+    "file": "raw/RNA_required_gene_subset.tsv.gz",
+    "rows": 1446,
+    "columns": 1084,
+    "bytes": 5577856,
+    "sha256": "99f10d677e9ad2f068b353588aa3fa3d5198e91d1c8ec28c1b4e70597acd76fc",
+    "source_file": "data_mrna_seq_v2_rsem.txt",
+    "purpose": "Exact subset of original input rows needed to reproduce candidate and prespecified Hallmark statistics"
+  },
+  {
+    "file": "raw/CNA_selected_gene_subset.tsv.gz",
+    "rows": 19,
+    "columns": 1072,
+    "bytes": 8869,
+    "sha256": "62f272d8f54e2cf66c87b62471b8018a298c92643e241497c456f373422a94a4",
+    "source_file": "data_cna.txt",
+    "purpose": "Exact subset of original input rows needed to reproduce candidate and prespecified Hallmark statistics"
+  }
+]

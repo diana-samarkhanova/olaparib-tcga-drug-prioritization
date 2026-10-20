@@ -1,0 +1,17 @@
+{
+  "source": "GSE165914",
+  "retrieved_utc": "2026-10-13",
+  "analysis": "New extraction of published edgeR glmQLFTest/BH results; descriptive means only from supplied processed counts",
+  "count_matrix_shape": [
+    27470,
+    54
+  ],
+  "n_candidate_genes": 20,
+  "n_mapped": 19,
+  "condition_n": 3,
+  "no_new_DE_pvalues": true,
+  "files": {
+    "GSE165914_M468P_OR_Diff_Expression_mshekhar.csv.gz": "70537b1e66add6f7ce5594787e24c953a323a774c52c7d2a0fd41f9c0c40be93",
+    "GSE165914_SUM_M468_Parental_OR_counts_mshekhar.csv.gz": "74893cd14a6ca2dafddc9f6c2843541f2ccabb94645ed63bf862853372a0a48e"
+  }
+}
