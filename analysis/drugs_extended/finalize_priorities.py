@@ -41,6 +41,8 @@ for gene,pert,role,cat,action,gate,term in rows:
   x=profiles.loc[cat]
   for k in ['library_name','library_CAS','regulatory_review_category','regulatory_evidence_note','chemical_structure_validated','primary_468_source_names','primary_468_identity_mapping_methods','primary_468_relative_viability','primary_468_dose_min_uM','primary_468_dose_max_uM','secondary_468_source_names','secondary_468_identity_mapping_methods','secondary_468_auc_median','secondary_468_r2_median','secondary_468_ic50_uM_median_within_tested_range','secondary_468_dose_min_uM_across_selected_records','secondary_468_dose_max_uM_across_selected_records','GDSC1_468_curve_details_JSON','GDSC2_468_curve_details_JSON']:r[k]=x[k]
   r['FDA_regulatory_source_url']=withdrawals if cat=='A8221' else fdasource
+  for k in ['secondary_468_n_distinct_dose_windows','secondary_468_pooled_dose_window_compatible','secondary_468_aggregation_note','secondary_468_selected_curve_details_JSON']:
+   r[k]=x[k]
  else:
   r.update({'library_name':'No nominated library compound','regulatory_review_category':'Not applicable','FDA_regulatory_source_url':''})
  out.append(r)

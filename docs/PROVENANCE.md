@@ -6,12 +6,32 @@ Source: the project's `Complete_Analysis_EN.zip`, analysis snapshot from
 Source archive SHA-256:
 `0ec9e3aa21e483a9db811281f5a39fba8cd031b14573ae27b413b2945ad0bd11`.
 
-The scientific scripts retain their original analysis structure. Packaging
+The initial repository preserved the original analysis structure. Packaging
 changes resolve filesystem roots relative to scripts, create missing output
 directories, add explicit input/hash checks, and supply archive-restoration and
 catalog-export helpers. One activation-reference date annotation was aligned
 with the archived table. Missing purity is no longer silently omitted.
-Statistical formulas, screen thresholds and drug-response endpoints were retained.
+That packaging step retained statistical formulas, screen thresholds and
+drug-response endpoints. Subsequent audit corrections and the TCGA refactor are
+documented separately below; the original snapshot remains available in commit
+`f89fdf41ee65c317a6e0c2e21e833b8d55e2ce2a`.
+
+## Audit and refactor
+
+The 20 October audit independently reproduced the original TCGA numerical
+outputs before applying conservative CDR-flag quality control, canonical QSOX1
+identifier resolution and complete-case covariate ranking. It also corrected
+variant-export eligibility, a missing generated selinexor alias, incompatible
+PRISM dose-window pooling, stale integration inputs and report timepoint labels.
+See [the audit](AUDIT_20261020.md) for effects and verification limits.
+
+The user then supplied `olaparib-tcga-refactor-files.zip`, a standalone
+`analyze_tcga.py` and `0001-refactor-analyze-tcga-with-tests.patch`. The modular
+TCGA implementation, configurable input/output locations, Cox warning recording
+and synthetic tests were integrated with the audited scientific corrections.
+The supplied bundle was not substituted wholesale for the repository. Synthetic
+test data are artificial fixtures, not additional patient observations.
+See [the comparison](REFACTOR_REVIEW_20261020.md).
 
 ## Source manifests
 

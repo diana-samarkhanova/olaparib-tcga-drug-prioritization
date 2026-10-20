@@ -1,5 +1,5 @@
 from pathlib import Path
-import json,re
+import re
 import pandas as pd
 
 P=Path(__file__).resolve().parent
@@ -108,7 +108,7 @@ for cat in profile_catalogs:
             out['primary_468_dose_min_uM']=z.primary_dose_min_uM.iloc[0] if len(z)==1 else None
             out['primary_468_dose_max_uM']=z.primary_dose_max_uM.iloc[0] if len(z)==1 else None
         else:
-            fields=['auc_median','r2_median','selected_screen_ids','dose_min_uM_across_selected_records','dose_max_uM_across_selected_records','all_selected_records_positive_r2_and_auc_0_1','ic50_uM_median_within_tested_range']
+            fields=['auc_median','r2_median','selected_screen_ids','dose_min_uM_across_selected_records','dose_max_uM_across_selected_records','all_selected_records_positive_r2_and_auc_0_1','ic50_uM_median_within_tested_range','n_distinct_dose_windows','pooled_dose_window_compatible','aggregation_note','selected_curve_details_JSON']
             for f in fields:out['secondary_468_'+f]=z[f].iloc[0] if len(z)==1 else None
     for name,data in gdsc_catalog.items():
         z=data[data.CatalogNumber.eq(cat)&data.depmap_id.eq('ACH-000849')].drop_duplicates(['DRUG_ID','NLME_CURVE_ID'])
@@ -128,7 +128,17 @@ tnbc_primary=primary[primary.depmap_id.isin(tnbc_ids)].drop_duplicates(['catalog
 tp=tnbc_primary.groupby(['catalog_row_id','CatalogNumber','library_name','source_compound_name','primary_dose_min_uM','primary_dose_max_uM'],as_index=False).agg(TNBC_models=('depmap_id','nunique'),primary_log2FC_TNBC_median=('primary_log2_fold_change_median','median'),primary_log2FC_TNBC_min=('primary_log2_fold_change_median','min'),primary_log2FC_TNBC_max=('primary_log2_fold_change_median','max'))
 tp.to_csv(P/'prism_primary_TNBC_concentration_context_summary.csv',index=False)
 ts=secondary[secondary.secondary_tissue.eq('TNBC')].drop_duplicates(['catalog_row_id','source_compound_name','depmap_id'])
+# Do not let a pooled multi-window summary re-enter concentration-stratified
+# panel medians. Its individual screen/batch/dose records are exported below.
+ts=ts[ts.pooled_dose_window_compatible.eq(True)]
 ts.groupby(['catalog_row_id','CatalogNumber','library_name','source_compound_name','selected_screen_ids','dose_min_uM_across_selected_records','dose_max_uM_across_selected_records'],as_index=False).agg(TNBC_models=('depmap_id','nunique'),secondary_auc_TNBC_median=('auc_median','median'),secondary_auc_TNBC_min=('auc_median','min'),secondary_auc_TNBC_max=('auc_median','max'),n_models_all_curve_diagnostics_pass=('all_selected_records_positive_r2_and_auc_0_1','sum')).to_csv(P/'prism_secondary_TNBC_concentration_context_summary.csv',index=False)
+contexts=pd.read_csv(ROOT/'analysis/prism/secondary_compound_cell_dose_context_summary.csv')
+context_map=secondary[['catalog_row_id','CatalogNumber','library_name','source_compound_name']].drop_duplicates()
+context_records=context_map.merge(contexts,left_on='source_compound_name',right_on='name',how='inner')
+context_records.to_csv(P/'prism_secondary_catalog_dose_context_records.csv',index=False)
+context_records[context_records.depmap_id.eq('ACH-000849')].to_csv(P/'prism_secondary_catalog_MDA_MB_468_dose_contexts.csv',index=False)
+ct=context_records[context_records.secondary_tissue.eq('TNBC')]
+ct.groupby(['catalog_row_id','CatalogNumber','library_name','source_compound_name','screen_id','broad_id','dose_min_uM','dose_max_uM'],as_index=False).agg(TNBC_models=('depmap_id','nunique'),secondary_auc_TNBC_median=('auc_median','median'),secondary_auc_TNBC_min=('auc_median','min'),secondary_auc_TNBC_max=('auc_median','max')).to_csv(P/'prism_secondary_TNBC_source_dose_context_summary.csv',index=False)
 
 print('Gene evidence rows',len(ev),'edges',len(edges),'catalog compounds',edges.CatalogNumber.nunique(),'genes',edges.gene.nunique(),'unresolved IDs',len(missing))
 print('Profile genes:',sorted(set(edges.gene)))

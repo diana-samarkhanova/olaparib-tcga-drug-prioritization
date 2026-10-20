@@ -18,8 +18,11 @@ data and mechanistic hypotheses remain separate evidence types.
   HEPHL1, LINC03007, SLC47A1, ELL2, INHBA, PHGDH, ABCB1**.
 - Catalog: **L1021 DiscoveryProbe**, 2,321 named entries. The analysis is specific
   to the supplied catalog, not every product sold as an FDA-approved library.
-- TCGA: 1,082 RNA-matched primary patients; 157 clinical TNBC, 848 non-TNBC,
-  77 unclassified. PAM50 basal (171) is a separate classification.
+- TCGA after conservative CDR-flag quality control: 1,077 RNA-matched primary
+  patients; 156 clinical TNBC, 844 non-TNBC, 77 unclassified. PAM50 basal (170)
+  is a separate classification. The archived 1,082-patient analysis is retained
+  as the pre-audit comparison, not overwritten. This is not an untreated cohort
+  or a cohort stratified by olaparib response.
 - Public resources: TCGA/cBioPortal, TCGA-CDR, GSE165914, Reactome, PRISM,
   GDSC release 8.5, Drugs@FDA, and source-linked literature curation.
 
@@ -36,6 +39,17 @@ python -m pip install -r requirements.txt
 
 Optional DOCX rendering requires
 `python -m pip install -r analysis/report_extended/requirements.txt`.
+
+For the synthetic-data and regression test suite:
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m pytest
+```
+
+The tests do not require patient records or the proprietary catalog. They check
+statistical calculations, planted synthetic signals, output contracts and known
+regressions; passing them does not validate olaparib-response prediction.
 
 ## Restore the analysis workspace
 
@@ -83,6 +97,7 @@ python analysis/tcga_extended/analyze_tcga.py
 python analysis/tcga_extended/analyze_mutations_and_sensitivity.py
 python analysis/astra_extended/build_synthesis.py
 python analysis/astra_extended/analyze_gse165914.py
+python analysis/extended_root/plot_project_evidence.py
 python analysis/astra_extended/integrate_context.py
 ```
 
@@ -98,6 +113,9 @@ to preserve dependencies between scripts and archived tables.
   the drug guide; restored tables support downstream analysis.
 - The consolidated mechanism evidence table is a manually curated input.
   Component generators do not recreate its final consolidation automatically.
+- Gene priorities and drug nominations are qualitative literature curation.
+  TCGA results are appended as tumour context; they do not train a predictor,
+  calculate olaparib resistance probabilities or determine the compound list.
 - GSE165914 uses published differential-expression estimates. Continued olaparib
   exposure is confounded with acquired resistance; this code does not refit DE
   models from raw sequencing reads.
@@ -116,10 +134,25 @@ to preserve dependencies between scripts and archived tables.
 - Independent recurrent-hit checks matched 24 KO and 3 activation genes.
 - Catalog export matched all 2,324 source rows (2,321 named entries).
 - All 114 available published GSE estimates matched the supplied table exactly.
-- TCGA source/subset hashes and cohort counts were checked. Purity recovery
-  preserved all 1,082 sample IDs and 1,021 available values.
-- Syntax, missing-input diagnostics, safe download replacement and a saved-table
-  figure regeneration were checked. A full new Cox-analysis rerun was not performed.
+- Independent retrieval of original TCGA RNA, CNA and purity files matched
+  their frozen hashes. All compact matrix cells and all archived purity values
+  matched the original sources exactly.
+- A full original TCGA rerun, including Cox models, reproduced the archived
+  numerical outputs. The audited rerun applies conservative CDR-redaction QC,
+  canonical QSOX1 mapping and complete-case rank adjustment; see the audit note
+  for changed estimates and interpretation limits.
+- Drug replay preserves source/dose context and restores the deterministic
+  selinexor alias. Incompatible PRISM dose windows are not pooled.
+- Regression checks cover stale integration inputs, incompatible dose windows,
+  gene/timepoint selection and TCGA quality-control rules.
 
 See [provenance and rights](docs/PROVENANCE.md) for source locations and the
 changes made while preparing this repository.
+
+See the [20 October code and scientific audit](docs/AUDIT_20261020.md) for
+confirmed corrections, before/after results and the boundary between tumour
+context and olaparib-response evidence.
+
+The [refactor comparison](docs/REFACTOR_REVIEW_20261020.md) explains which changes
+from the separately supplied TCGA refactor were adopted and why the scientific
+audit corrections remain part of the default analysis.

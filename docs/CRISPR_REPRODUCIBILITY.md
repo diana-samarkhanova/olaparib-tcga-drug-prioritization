@@ -93,8 +93,11 @@ python analysis/extended_root/plot_reactome.py
 ```
 
 Outputs are written into `outputs/TCGA_Drug_Analysis_EN_20261013/`. The first
-command combines archived CRISPR and drug-resource tables and creates
-`tables/Selected_CRISPR_panel_20_genes.csv`, required by the report builders.
+command combines the current CRISPR and drug-resource tables and creates
+`outputs/TCGA_Drug_Analysis_EN_20261013/tables/Selected_CRISPR_panel_20_genes.csv`,
+required by the report builders and `analysis/astra_extended/integrate_context.py`.
+Regenerate it after rerunning the screen analysis. The restored root `tables/`
+copy is an archival snapshot and is not the context-integration input.
 The individual expression plots use TCGA expression, clinical and contrast
 tables. The combination plot uses the published-screen extraction and curated
 combination table. The Reactome figure uses the saved significant KO ORA table;

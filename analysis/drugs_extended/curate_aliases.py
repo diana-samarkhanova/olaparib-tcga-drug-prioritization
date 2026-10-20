@@ -2,7 +2,7 @@ from pathlib import Path
 from urllib.request import Request,urlopen
 from urllib.parse import quote
 from concurrent.futures import ThreadPoolExecutor
-import json,re
+import json
 import pandas as pd
 
 P=Path(__file__).resolve().parent
@@ -11,6 +11,7 @@ P.mkdir(parents=True,exist_ok=True)
 RAW=P/'identity_sources';RAW.mkdir(exist_ok=True)
 lib=pd.read_csv(ROOT/'analysis/library/library_raw.csv')
 defs=[
+ ('B1464','selinexor','KPT-330','same development compound; catalog structure not validated','Current multiple-myeloma label; DLBCL indication withdrawn 2026-04-30'),
  ('A8221','tazemetostat','EPZ-6438','same development compound; FDA marketed hydrobromide form','All Tazverik approvals withdrawn 2026-06-22'),
  ('A8346','alpelisib','BYL-719','same development compound',''),
  ('A4007','ixazomib citrate','MLN9708','clinically marketed citrate ester/prodrug form; distinct from MLN2238',''),

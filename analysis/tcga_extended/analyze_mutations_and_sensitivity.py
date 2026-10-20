@@ -1,22 +1,25 @@
 from pathlib import Path
-import json,re,warnings,hashlib,datetime
+import json,re,warnings
 import pandas as pd,numpy as np
 from lifelines import CoxPHFitter
 from lifelines.statistics import proportional_hazard_test
-from scipy import stats
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 R=Path(__file__).resolve().parent
 (R/'figures').mkdir(exist_ok=True)
 C=pd.read_csv(R/'matched_clinical_cohort.csv',index_col='SAMPLE_ID');E=pd.read_csv(R/'selected_expression_log2_RSEM_plus1.csv',index_col='SAMPLE_ID')
+if 'Redaction' in C and C.Redaction.fillna('').astype(str).str.strip().str.casefold().eq('redacted').any():
+ raise ValueError('Clinical input still contains TCGA-CDR-redacted cases. Rerun analyze_tcga.py to apply the declared conservative QC policy before this analysis.')
 genes=['LAMTOR2','WDR24','DERL2','NME6','TP53BP1','PARG','TP53I11','FOXQ1','CERK','PHF19','SLC35D1','PHLDA2','WT1','HEPHL1','LINC03007','SLC47A1','ELL2','INHBA','PHGDH','ABCB1']
 case=(R/'raw/mutation_cases.txt').read_text();sequenced=set(re.search(r'case_list_ids:\s*(.*)',case).group(1).split())
+eligible_sequenced=set(C.index)&sequenced
 rows=[];variants=[]
 lof={'Frame_Shift_Del','Frame_Shift_Ins','Nonsense_Mutation','Splice_Site'}
 for g in genes+['BRCA1','BRCA2','TP53']:
  f=R/'raw/mutations_api'/(g+'.json');available=f.exists();j=json.loads(f.read_text()) if available else []
  for x in j:
+  if x.get('sampleId') not in eligible_sequenced:continue
   variants.append({'gene':g,'sample_id':x.get('sampleId'),'patient_id':x.get('patientId'),'mutation_type':x.get('mutationType'),'protein_change':x.get('proteinChange'),'putative_truncating_or_splice':x.get('mutationType') in lof,'chr':x.get('chr'),'start_position':x.get('startPosition'),'reference_allele':x.get('referenceAllele'),'variant_allele':x.get('variantAllele')})
  for cohort,mask in [('BRCA',C.index==C.index),('TNBC',C.TNBC_STATUS.eq('TNBC')),('Basal',C.BASAL_STATUS.eq('Basal'))]:
   ss=set(C.index[mask])&sequenced;mutated={x.get('sampleId') for x in j}&ss;trunc={x.get('sampleId') for x in j if x.get('mutationType') in lof}&ss
@@ -44,7 +47,7 @@ S=pd.DataFrame(out);S['BH_FDR']=S.groupby('endpoint').p_value.transform(bh);S['P
 
 plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'axes.spines.top':False,'axes.spines.right':False})
 f,axs=plt.subplots(1,2,figsize=(11,8),sharey=True)
-for a,co in zip(axs,['BRCA','TNBC']):
+for a,co in zip(axs,['BRCA','TNBC'],strict=True):
  d=M.loc[M.cohort.eq(co)&M.gene.isin(genes)].set_index('gene').reindex(genes);a.barh(range(len(genes)),d.mutated_percent,color='#8496A2',label='Any source-reported coding mutation');a.barh(range(len(genes)),d.putative_truncating_splice_percent,color='#A34F45',label='Putative truncating/splice subset');a.set_xlabel('Percentage of sequenced tumours');a.set_title(co+' (n='+str(int(d.n_sequenced.dropna().iloc[0]))+' sequenced)');a.set_xlim(0,3)
  for i,g in enumerate(genes):
   if pd.isna(d.loc[g,'n_sequenced']):a.text(1.5,i,'NA',color='.5',ha='center',va='center')

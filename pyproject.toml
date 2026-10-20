@@ -1,0 +1,16 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+filterwarnings = [
+    # scipy emits these for constant inputs on purpose; the analysis records NaN.
+    "ignore::scipy.stats.ConstantInputWarning",
+    "ignore::scipy.stats.NearConstantInputWarning",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+extend-exclude = ["upload", "outputs", "tables", "figures"]
+
+[tool.ruff.lint]
+select = ["E9", "F", "B"]
